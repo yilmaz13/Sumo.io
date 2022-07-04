@@ -10,6 +10,8 @@ public class SumoController : MonoBehaviour
     protected bool Moveable;
     protected AudioSource AudioSource;
     public AudioClip[] soundEffect;
+    public GameObject runDust;
+    public Transform foot;
     public float PushMultiplier { get; set; }
     protected float ForceConstant { get; set; }
     public bool IsDead { get; protected set; } = false;
@@ -63,8 +65,9 @@ public class SumoController : MonoBehaviour
         {
             var growthConstant = other.gameObject.GetComponent<Food>().GrowthConstant;
             Growth(growthConstant);
-            other.gameObject.SetActive(false);
-            
+            // other.gameObject.SetActive(false);
+            Destroy(other.gameObject);
+
             PlayEatSoundEffect(); // plays boing sound effect
         }
     }
@@ -76,5 +79,10 @@ public class SumoController : MonoBehaviour
     protected void PlayEatSoundEffect()
     {
         AudioSource.PlayOneShot(soundEffect[1]);
+    }
+    protected void RunDust()
+    {
+        var dust = Instantiate(runDust, foot.position, Quaternion.identity);
+        Destroy(dust, 1f);
     }
 }

@@ -16,6 +16,8 @@ public class PlayerController : SumoController
         PushMultiplier = 1.0f;
         ForceConstant = 10;
         Moveable = true;
+        anim.SetBool("Moving", false);
+        InvokeRepeating(nameof(RunDust), 0, 0.2f);
     }
 
     private void Update()
@@ -35,6 +37,10 @@ public class PlayerController : SumoController
     /// </summary>
     private void Move()
     {
+        if (InputManager.Instance.direction != Vector2.zero)
+        {
+            anim.SetBool("Moving", true);
+        }
         Vector2 direction = InputManager.Instance.direction;
         moveDirection = new Vector3(direction.x, 0, direction.y);
 

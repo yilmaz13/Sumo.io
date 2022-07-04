@@ -26,7 +26,7 @@ public sealed class LevelManager : MonoBehaviour
     public Transform sumosTransform;
     public List<EnemyController> enemies;
     public Transform[] powerUpItemTransforms;
-    public GameObject foodPrefab;
+    public GameObject[] foodPrefab;
 
     /// <summary>
     /// Current level is initial setup
@@ -37,7 +37,8 @@ public sealed class LevelManager : MonoBehaviour
         mainCamera = Camera.main;
         player = GameObject.FindWithTag("Player");
         mainCamera.gameObject.GetComponent<CameraMovement>().SetTarget(player.transform);
-        HandOutFood();
+        InvokeRepeating(nameof(HandOutFood), 1.0f, 10.0f);
+        //    HandOutFood();
 
         foreach (Transform enemy in sumosTransform)
         {
@@ -63,11 +64,15 @@ public sealed class LevelManager : MonoBehaviour
     /// </summary>
     public void HandOutFood()
     {
-        var random = Random.Range(0, powerUpItemTransforms.Length);
         foreach (var powerUpItemTransform in powerUpItemTransforms)
         {
-            Instantiate(foodPrefab, powerUpItemTransform);
+            if (powerUpItemTransform.childCount == 0)
+            {
+                var randomFoodKind = Random.Range(0, foodPrefab.Length);
+                Instantiate(foodPrefab[randomFoodKind], powerUpItemTransform);
+            }
         }
+
     }
 
     /// <summary>

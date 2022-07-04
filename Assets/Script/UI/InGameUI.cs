@@ -1,10 +1,11 @@
 ﻿using UnityEngine;
 using System.Collections;
 using UnityEngine.UI;
+using TMPro;
 
 public class InGameUI : MonoBehaviour
 {
-    public Text remainderTime;
-    public Text remainderSumo;
-    public Text Score;
+    public TextMeshProUGUI remainderTime;
+    public TextMeshProUGUI remainderSumo;
+    public TextMeshProUGUI Score;
 }

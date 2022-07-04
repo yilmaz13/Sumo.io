@@ -14,6 +14,8 @@ public class EnemyController : SumoController
         PushMultiplier = 1.0f;
         ForceConstant = 10;
         agent = GetComponent<NavMeshAgent>();
+        anim.SetBool("Moving", false);
+        InvokeRepeating(nameof(RunDust), 0, 0.4f);
     }
 
     private void Update()
@@ -25,7 +27,7 @@ public class EnemyController : SumoController
         NearestEnemy();
         if (agent.enabled && Moveable)
         {
-            Navigate(); 
+            Navigate();
         }
     }
 
@@ -39,16 +41,17 @@ public class EnemyController : SumoController
         }
         else
         {
-            Moveable = true;  
+            Moveable = true;
             agent.isStopped = false;
         }
     }
 
     public void Navigate()
     {
+
         agent.isStopped = false;
         agent.SetDestination(target.transform.position);
-
+        anim.SetBool("Moving", true);
         if (!agent.pathPending)
         {
             if (agent.remainingDistance <= agent.stoppingDistance)
@@ -61,12 +64,12 @@ public class EnemyController : SumoController
             }
         }
     }
-    
+
     private void NearestEnemy()
     {
         target = LevelManager.Instance.NearestEnemy(transform);
     }
-    
+
     protected override void OnTriggerEnter(Collider other)
     {
         base.OnTriggerEnter(other);
